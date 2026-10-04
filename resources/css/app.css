@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 [x-cloak] { display: none !important; }
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear { display: none; }
 
 @layer components {
     .card { @apply rounded-2xl border border-slate-100 bg-white shadow-card; }

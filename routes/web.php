@@ -4,19 +4,21 @@ use App\Http\Controllers\Admin;
 use App\Http\Controllers\Mahasiswa;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-Route::get('/', fn () => Auth::guard('mahasiswa')->check()
+Route::get('/', fn() => Auth::guard('mahasiswa')->check()
     ? redirect()->route('ruangan.index')
     : redirect()->route('login'))->name('home');
+Route::view('/lupa-password', 'auth.lupa-password')->name('password.request');
 
 /* ------------------------------ MAHASISWA ------------------------------ */
 Route::middleware('guard.guest:mahasiswa')->group(function () {
-    Route::get('/login', [Mahasiswa\AuthController::class, 'create'])->name('login');
-    Route::post('/login', [Mahasiswa\AuthController::class, 'store'])->middleware('throttle:6,1');
+    Route::get('/login', [AuthController::class, 'create'])->name('login');
+    Route::post('/login', [AuthController::class, 'store'])->middleware('throttle:6,1');
 });
 
 Route::middleware('guard.auth:mahasiswa')->group(function () {
-    Route::post('/logout', [Mahasiswa\AuthController::class, 'destroy'])->name('logout');
+    Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
     Route::redirect('/dashboard', '/ruangan')->name('dashboard');
 
     Route::get('/ruangan', [Mahasiswa\RuanganController::class, 'index'])->name('ruangan.index');
@@ -35,14 +37,11 @@ Route::middleware('guard.auth:mahasiswa')->group(function () {
 
 /* -------------------------------- ADMIN -------------------------------- */
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::middleware('guard.guest:admin')->group(function () {
-        Route::get('/login', [Admin\AuthController::class, 'create'])->name('login');
-        Route::post('/login', [Admin\AuthController::class, 'store'])->middleware('throttle:6,1');
-    });
+    Route::redirect('/login', '/login')->name('login');
 
     Route::middleware('guard.auth:admin')->group(function () {
-        Route::post('/logout', [Admin\AuthController::class, 'destroy'])->name('logout');
-        Route::get('/', fn () => redirect()->route('admin.dashboard'));
+        Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
+        Route::get('/', fn() => redirect()->route('admin.dashboard'));
         Route::get('/dashboard', Admin\DashboardController::class)->name('dashboard');
 
         Route::get('/pengajuan', [Admin\PengajuanController::class, 'index'])->name('pengajuan.index');

@@ -23,27 +23,31 @@
                 <form method="POST" action="{{ $action }}" class="mt-7 space-y-5" x-data="{ lihat: false, loading: false }" @submit="loading = true">
                     @csrf
                     <div>
-                        <label for="username" class="label">{{ $label }}</label>
+                        <label for="username" class="label">Username</label>
                         <div class="relative">
                             <x-icon name="user" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                            <input id="username" name="username" value="{{ old('username') }}" placeholder="{{ $placeholder }}" autocomplete="username" autofocus required
+                            <input id="username" name="username" value="{{ old('username') }}" placeholder="Masukkan NIM atau NIP" autocomplete="username" autofocus required
                                 aria-invalid="{{ $errors->has('username') ? 'true' : 'false' }}" class="field pl-9 {{ $errors->has('username') ? 'field-error' : '' }}">
                         </div>
                         @error('username')<p class="mt-1 text-xs font-medium text-red-600" role="alert">{{ $message }}</p>@enderror
                     </div>
 
                     <div>
-                        <div class="mb-1.5 flex items-center justify-between">
-                            <label for="password" class="text-sm font-semibold text-slate-800">Password</label>
-                            <span class="text-xs text-slate-400" title="Hubungi pengelola kampus untuk mengatur ulang password">Lupa Password?</span>
-                        </div>
+                        <label for="password" class="label">Password</label>
                         <div class="relative">
                             <input id="password" name="password" :type="lihat ? 'text' : 'password'" placeholder="Masukkan password" autocomplete="current-password" required class="field pr-10">
                             <button type="button" @click="lihat = !lihat" class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" :aria-label="lihat ? 'Sembunyikan password' : 'Tampilkan password'">
-                                <x-icon name="eye" class="h-4 w-4" x-show="!lihat" /><x-icon name="eye-off" class="h-4 w-4" x-show="lihat" x-cloak />
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="h-4 w-4">
+                                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/>
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="m2 2 20 20" x-show="lihat" x-cloak/>
+                                </svg>
                             </button>
                         </div>
                         @error('password')<p class="mt-1 text-xs font-medium text-red-600" role="alert">{{ $message }}</p>@enderror
+                        <div class="mt-2 text-right">
+                            <a href="{{ route('password.request') }}" class="text-xs font-bold text-brand-700 hover:underline">Lupa Password?</a>
+                        </div>
                     </div>
 
                     <label class="flex items-center gap-2 text-sm text-slate-600">
