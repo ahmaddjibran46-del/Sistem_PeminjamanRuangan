@@ -12,7 +12,7 @@
                 </div>
                 <h2 class="mt-6 text-2xl font-bold text-brand-800">{{ $admin ? 'Portal Administrasi Peminjaman' : 'Peminjaman Ruangan Kampus' }}</h2>
                 <p class="mt-2 text-sm leading-relaxed text-slate-600">Sistem informasi peminjaman ruang kuliah, laboratorium, aula, dan fasilitas kampus secara terintegrasi dan real-time.</p>
-                <div class="mt-auto grid place-items-center rounded-2xl bg-white/70 py-10 text-brand-700"><x-icon name="building" class="h-24 w-24 opacity-80" /></div>
+                <img src="{{ asset('images/login-ilustrasi.png') }}" alt="Ilustrasi gedung dengan jadwal ruangan dan booking cepat" width="425" height="286" class="mt-auto h-auto w-full rounded-2xl">
             </section>
 
             {{-- Form --}}
